@@ -95,22 +95,23 @@ export default {
   },
 
   delete: async (resource, params) => {
-    const url = `${apiUrl}/${resource}/${params.id}`;
-    const { json } = await httpClient(url, {
-      method: "DELETE",
-    });
-    return { data: json };
+    const url = `${apiUrl}/${resource}/delete?id=${
+      params.previousData && params.previousData.id
+    }&category=${params.previousData && params.previousData.category}`;
+
+    const { data } = await axios.get(url);
+
+    return { data };
   },
 
   deleteMany: async (resource, params) => {
-    const query = {
-      filter: JSON.stringify({ id: params.ids }),
+    const url = `${apiUrl}/${resource}/delete-many?ids=${JSON.stringify(
+      params.ids
+    )}`;
+    await axios.get(url);
+
+    return {
+      data: [],
     };
-    const url = `${apiUrl}/${resource}?${stringify(query)}`;
-    const { json } = await httpClient(url, {
-      method: "DELETE",
-      body: JSON.stringify(params.data),
-    });
-    return { data: json };
   },
 } as DataProvider;
