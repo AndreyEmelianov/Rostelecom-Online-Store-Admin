@@ -1,11 +1,28 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import { List, Datagrid, TextField, NumberField } from "react-admin";
+import {
+  List,
+  Datagrid,
+  TextField,
+  NumberField,
+  Identifier,
+  RaRecord,
+} from "react-admin";
 
 export const GoodsList = () => {
+  const handleRowClick = (
+    id: Identifier,
+    resource: string,
+    record: RaRecord
+  ) => {
+    localStorage.setItem("show", JSON.stringify(record.category));
+
+    return "show";
+  };
+
   return (
     <List>
-      <Datagrid>
+      <Datagrid rowClick={handleRowClick}>
         <TextField source="id" />
         <TextField source="name" />
         <TextField source="type" />

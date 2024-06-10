@@ -19,6 +19,7 @@ export default {
     const url = `${apiUrl}/${resource}/list?${stringify(query)}`;
 
     const { data } = await axios.get(url);
+    console.log(data);
 
     return {
       data: data.items,
@@ -27,9 +28,13 @@ export default {
   },
 
   getOne: async (resource, params) => {
-    const url = `${apiUrl}/${resource}/${params.id}`;
-    const { json } = await httpClient(url);
-    return { data: json };
+    const category = JSON.parse(localStorage.getItem("show") as string);
+
+    const url = `${apiUrl}/${resource}/one?id=${params.id}&category=${category}`;
+
+    const { data } = await axios.get(url);
+
+    return { data: data.productItem };
   },
 
   getMany: async (resource, params) => {
